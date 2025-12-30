@@ -69,19 +69,16 @@ export function UploadResumeForm() {
     formData.append("file", selectedFile);
 
     try {
-      // TODO: Implement API Endpoint in next step
-      // const response = await fetch("/api/generate/resume", {
-      //   method: "POST",
-      //   body: formData,
-      // });
+      const response = await fetch("/api/generate/resume", {
+        method: "POST",
+        body: formData,
+      });
       
-      // Simulation for UI testing
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // if (!response.ok) throw new Error("Failed to upload");
-      
+      if (!response.ok) throw new Error("Failed to upload");
+
+      const data = await response.json();
       toast.success("Resume processed successfully!");
-      router.refresh(); 
+      router.push(`/site/${data.siteId}`); // Navigate to the generated site (we need to build this view next, but this completes the flow) 
     } catch (error) {
       toast.error("Something went wrong. Please try again.");
     } finally {
